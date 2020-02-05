@@ -81,12 +81,21 @@ $ gradle tasks
 ### Common tasks
 
 ```shell script
-$ gradle help
+$ gradle help [--task <task>]
 $ gradle properties
 $ gradle tasks
 
 $ gradle build
 $ gradle test
 
-$ gradle dependencies [--configuration compile]
+$ gradle dependencies [--configuration compile|testRuntimeClasspath]
 ```
+
+To obtain an HTML report of the dependency trees, add plugin `project-report` to build.gradle, and run:
+
+```shell script
+$ gradle htmlDependencyReport
+```
+
+
+
