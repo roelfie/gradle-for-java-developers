@@ -1,3 +1,9 @@
+buildscript { // dependencies for the gradle build file (not for the Java project itself!)
+    dependencies {
+        classpath files('my-plugin/build/libs/my-plugin.jar')
+    }
+}
+
 plugins {
     id 'java'
 }
@@ -18,8 +24,11 @@ dependencies {
 
 apply plugin: 'project-report'
 
+// Below follow 3 examples of hand-writing a custom task.
+// Example 1: Task provided by our custom plugin (myPluginTask)
+apply plugin: 'my-custom-plugin-id' // Refers to my-plugin.jar/META-INF/<id>.properties
 
-// Custom task (written in DSL)
+// Example 2: Custom task, written in DSL
 task showDate {
     // This triggers the 'build' task before 'showDate' is executed.
     dependsOn build
@@ -33,8 +42,7 @@ task showDate {
     }
 }
 
-
-// Custom task (written in Groovy)
+// Example 3: Custom task, written in Groovy
 class HelloWorld extends DefaultTask {
 
     @Override

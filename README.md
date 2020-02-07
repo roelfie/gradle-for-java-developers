@@ -157,6 +157,9 @@ task hello(type: HelloWorld)
 
 Listing all tasks in a particular group: `gradle tasks --group 'My custom tasks'`
 
+Gradle plugins (see below) are also a means of writing tasks.
+By putting tasks in a plugin you make them reusable.
+
 ```shell script
 $ gradle -q showToday
 Current date: Fri Feb 07 14:22:25 CET 2020
@@ -221,4 +224,10 @@ $ gradle wrapper --gradle-version 6.1.1
 
 :warning: Make sure to always check in `gradlew` and the `gradle` directory into vcs.
 
+## Plugins
 
+Plugins are a means to make tasks reusable by wrapping them in a library.
+The sub-module `my-plugin` defines a task `myPluginTask`. 
+
+Take a look in `settings.gradle` and `build.gradle` of the parent module 
+to find out how to import the plugin.
