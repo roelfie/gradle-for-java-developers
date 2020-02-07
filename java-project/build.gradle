@@ -18,16 +18,39 @@ dependencies {
 
 apply plugin: 'project-report'
 
-// Custom task
+
+// Custom task (written in DSL)
 task showDate {
     // This triggers the 'build' task before 'showDate' is executed.
     dependsOn build
 
     // Grouping (visible in 'gradle tasks' or in gradle view in IntelliJ)
-    group = 'my tasks'
+    group = 'My custom tasks'
     description = 'Show current date'
 
     doLast {
         println 'Current date: ' + new Date()
     }
 }
+
+
+// Custom task (written in Groovy)
+class HelloWorld extends DefaultTask {
+
+    @Override
+    String getGroup() {
+        return "My custom tasks"
+    }
+
+    @Override
+    String getDescription() {
+        return "Hello World"
+    }
+
+    @TaskAction
+    void hello() {
+        println "Hello World!"
+    }
+}
+
+task hello(type: HelloWorld)

@@ -180,24 +180,49 @@ $ gradle wrapper --gradle-version 6.1.1
 
 ## Writing Custom Tasks
 
-The following will add a task named `showDate` to `build.gradle`:
+You can define custom tasks in `build.gradle`. 
+
+Custom task written in DSL:
+
 ```shell script
 task showDate {
+    dependsOn build
+
+    group = 'My custom tasks'
+    description = 'Show current date'
+
     doLast {
-        group = 'My tasks'
-        description = 'Show current date'
         println 'Current date: ' + new Date()
     }
 }
 ```
 
-This can be executed as follows: 
+Custom task written in Groovy: 
 ```shell script
-$ gradle -q showDate
-Current date: Fri Feb 07 14:22:25 CET 2020
+class HelloWorld extends DefaultTask {
+    @Override
+    String getGroup() { return "My custom tasks" }
+
+    @Override
+    String getDescription() { return "Hello World" }
+
+    @TaskAction
+    void hello() { println "Hello World!" }
+}
+
+task hello(type: HelloWorld)
 ```
 
-:warning: If you don't define a `group` then `gradle tasks` will show this task only if you add the `--all` flag,
-and in IntelliJ the task will appear in the 'other' group. 
+Listing all tasks in a particular group: `gradle tasks --group 'My custom tasks'`
 
+```shell script
+$ gradle -q showToday
+Current date: Fri Feb 07 14:22:25 CET 2020
+$ gradle -q hello
+Hello World!
+```
 
+:warning: If you don't define a `group` then `gradle tasks` will show this task only if you add the `--all` flag. 
+In IntelliJ the task will appear in the 'other' group.
+
+More information [here](https://docs.gradle.org/current/javadoc/org/gradle/api/Task.html).
