@@ -97,6 +97,28 @@ To obtain an HTML report of the dependency trees, add plugin `project-report` to
 ```shell script
 $ gradle htmlDependencyReport
 ```
+#### Logging & Build lifecycle
+
+Gradle has a maven-like [build lifecycle](https://docs.gradle.org/current/userguide/build_lifecycle.html). 
+
+Log levels are (in order):
+1. ERROR
+2. QUIET
+3. WARNING
+4. LIFECYCLE (default)
+5. INFO
+6. DEBUG
+
+```shell script
+$ gradle [-q|-w|-i|-d] <task>
+```
+
+With the default log level [LIFECYCLE](https://docs.gradle.org/current/userguide/logging.html) you can supposedly 
+see lifecycle progress information messages, but I do not (gradle 6.1.1). On log level INFO you do see lifecycle information:
+
+```shell script
+$ gradle [-i|--info] <task>
+```
 
 ## Java plugin
 
@@ -155,3 +177,22 @@ $ gradle wrapper --gradle-version 6.1.1
 ```
 
 :warning: Make sure to always check in `gradlew` and the `gradle` directory into vcs.
+
+## Writing Custom Tasks
+
+The following will add a task named `showDate` to `build.gradle`:
+```shell script
+task showDate {
+    doLast {
+        println 'Current date: ' + new Date()
+    }
+}
+```
+
+This can be executed as follows: 
+```shell script
+$ gradle -q showDate
+Current date: Fri Feb 07 14:22:25 CET 2020
+```
+
+

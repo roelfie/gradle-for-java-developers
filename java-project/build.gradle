@@ -17,3 +17,10 @@ dependencies {
 }
 
 apply plugin: 'project-report'
+
+// Custom task
+task showDate {
+    doLast {
+        println 'Current date: ' + new Date()
+    }
+}
