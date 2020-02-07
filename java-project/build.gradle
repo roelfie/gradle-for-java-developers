@@ -20,6 +20,13 @@ apply plugin: 'project-report'
 
 // Custom task
 task showDate {
+    // This triggers the 'build' task before 'showDate' is executed.
+    dependsOn build
+
+    // Grouping (visible in 'gradle tasks' or in gradle view in IntelliJ)
+    group = 'my tasks'
+    description = 'Show current date'
+
     doLast {
         println 'Current date: ' + new Date()
     }

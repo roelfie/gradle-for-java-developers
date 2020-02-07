@@ -184,6 +184,8 @@ The following will add a task named `showDate` to `build.gradle`:
 ```shell script
 task showDate {
     doLast {
+        group = 'My tasks'
+        description = 'Show current date'
         println 'Current date: ' + new Date()
     }
 }
@@ -194,5 +196,8 @@ This can be executed as follows:
 $ gradle -q showDate
 Current date: Fri Feb 07 14:22:25 CET 2020
 ```
+
+:warning: If you don't define a `group` then `gradle tasks` will show this task only if you add the `--all` flag,
+and in IntelliJ the task will appear in the 'other' group. 
 
 
