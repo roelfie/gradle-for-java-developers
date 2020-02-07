@@ -228,9 +228,9 @@ $ gradle wrapper --gradle-version 6.1.1
 ## 8. Plugins
 
 Plugins are a means to make tasks reusable by wrapping them in a library.
-The sub-module `my-plugin` defines a task `myPluginTask`. 
+The sub-module [`my-plugin`](java-project/my-plugin) defines a task `myPluginTask`. 
 
-Take a look in `settings.gradle` and `build.gradle` of the parent module 
+Take a look in [`settings.gradle`](java-project/settings.gradle) and [`build.gradle`](java-project/build.gradle) of the parent module 
 to find out how to import the plugin.
 
 
