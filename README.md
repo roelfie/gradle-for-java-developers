@@ -224,10 +224,33 @@ $ gradle wrapper --gradle-version 6.1.1
 
 :warning: Make sure to always check in `gradlew` and the `gradle` directory into vcs.
 
-## Plugins
+
+## 8. Plugins
 
 Plugins are a means to make tasks reusable by wrapping them in a library.
 The sub-module `my-plugin` defines a task `myPluginTask`. 
 
 Take a look in `settings.gradle` and `build.gradle` of the parent module 
 to find out how to import the plugin.
+
+
+## 9. Profiling
+
+Add the `--profile` flag to generate profile reports.
+
+```shell script
+$ gradle build --profile
+```
+
+## 10. Gradle Cloud Build Scan
+
+* Generate advanced build reports
+* These reports are saved to the cloud
+* Managed by Gradle
+* Available as free and commercial version
+
+```shell script
+$ gradle build --scan
+```
+
+See [scans.gradle.com](https://scans.gradle.com/) for more information.
