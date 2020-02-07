@@ -90,6 +90,7 @@ $ gradle test
 
 $ gradle dependencies [--configuration compile|testRuntimeClasspath]
 ```
+Use `-q` (quiet) for less verbose output.
 
 To obtain an HTML report of the dependency trees, add plugin `project-report` to build.gradle, and run:
 
@@ -97,5 +98,60 @@ To obtain an HTML report of the dependency trees, add plugin `project-report` to
 $ gradle htmlDependencyReport
 ```
 
+## Java plugin
 
+In the example `build.gradle` there's an import of the 'java' [plugin](https://docs.gradle.org/current/userguide/java_plugin.html).
+This plugin adds extra tasks to gradle: 
 
+```shell script
+$ gradle clean     
+$ gradle classes       # compiles Java classes and copies production resources
+$ gradle testClasses   # compiles test Java classes and copies test resources
+$ gradle test          # depends on testClasses and runs all JUnit tests
+$ gradle jar           # 
+$ gradle etc...
+```
+
+## Dependency management
+
+A dependency on a gradle submodule is added like this:
+
+```groovy
+dependencies {
+    compile project(':json-display')
+}
+```
+
+## Project structure
+
+Overview of submodules in a multi-module gradle project: 
+```groovy
+$ gradle -q projects
+```
+
+#### Gradle wrapper (gradlew)
+
+To enforce a uniform way of building your gradle project across environments, you can use the gradle wrapper.
+The gradle wrapper is added to your project by `gradle init`.
+
+```shell script
+<project>
+ |__ gradle
+ |   |__ wrapper
+ |       |__ gradle-wrapper.jar          # implementation (checks version & downloads gradle)
+ |       |__ gradle-wrapper.properties   # specifies what gradle version to use 
+ |__ gradlew                             # bash script around the wrapper
+ |__ gradlew.bat                         # (Windows version)
+```
+
+The gradle wrapper `gradlew`
+- checks that the requested version of gradle is installed
+- if not, downloads and installs that version
+- passes the commands on to the real gradle
+
+If there is no gradle wrapper in your project, you can add one using 
+```shell script
+$ gradle wrapper --gradle-version 6.1.1
+```
+
+:warning: Make sure to always check in `gradlew` and the `gradle` directory into vcs.
