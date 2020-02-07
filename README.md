@@ -1,12 +1,6 @@
 # Gradle for Java Developers
 
-In the root directory of the project (where the build.gradle resides):
-
-```shell script
-gradle build
-```
-
-## Groovy closures
+## 1. Introduction
 
 Example of a build.gradle:    
 
@@ -30,6 +24,7 @@ dependencies {
 }
 ```
 
+### Groovy closures
 All the constructs of the form
 
 ```groovy
@@ -41,9 +36,21 @@ someProperty {
 
 are actually Groovy closures being passed in to a method.
 
-## POM
+### Submodules
 
-The Groovy POM (project object model):
+To define a gradle submodule:
+* create a new gradle project in subdirectory `my-sub-module`
+* include it in setings.gradle: `include 'my-sub-module'`
+* add a dependency in build.gradle: `compile project(':my-sub-module')`
+
+This prints the structure of a multi-module gradle project: 
+```groovy
+$ gradle -q projects
+```
+
+## 2. POM
+
+The Gradle POM (project object model):
 
 - Project
   - Tasks (>=0 per project)
@@ -70,12 +77,12 @@ or do
 $ gradle properties
 ```
 
-## Tasks
+## 3. Tasks
 
-The tasks provided by Gradle
+List (all) tasks:
 
 ```shell script
-$ gradle tasks
+$ gradle tasks [--all]
 ```
 
 ### Common tasks
@@ -97,30 +104,8 @@ To obtain an HTML report of the dependency trees, add plugin `project-report` to
 ```shell script
 $ gradle htmlDependencyReport
 ```
-#### Logging & Build lifecycle
 
-Gradle has a maven-like [build lifecycle](https://docs.gradle.org/current/userguide/build_lifecycle.html). 
-
-Log levels are (in order):
-1. ERROR
-2. QUIET
-3. WARNING
-4. LIFECYCLE (default)
-5. INFO
-6. DEBUG
-
-```shell script
-$ gradle [-q|-w|-i|-d] <task>
-```
-
-With the default log level [LIFECYCLE](https://docs.gradle.org/current/userguide/logging.html) you can supposedly 
-see lifecycle progress information messages, but I do not (gradle 6.1.1). On log level INFO you do see lifecycle information:
-
-```shell script
-$ gradle [-i|--info] <task>
-```
-
-## Java plugin
+## 4. Java plugin
 
 In the example `build.gradle` there's an import of the 'java' [plugin](https://docs.gradle.org/current/userguide/java_plugin.html).
 This plugin adds extra tasks to gradle: 
@@ -134,51 +119,8 @@ $ gradle jar           #
 $ gradle etc...
 ```
 
-## Dependency management
 
-A dependency on a gradle submodule is added like this:
-
-```groovy
-dependencies {
-    compile project(':json-display')
-}
-```
-
-## Project structure
-
-Overview of submodules in a multi-module gradle project: 
-```groovy
-$ gradle -q projects
-```
-
-#### Gradle wrapper (gradlew)
-
-To enforce a uniform way of building your gradle project across environments, you can use the gradle wrapper.
-The gradle wrapper is added to your project by `gradle init`.
-
-```shell script
-<project>
- |__ gradle
- |   |__ wrapper
- |       |__ gradle-wrapper.jar          # implementation (checks version & downloads gradle)
- |       |__ gradle-wrapper.properties   # specifies what gradle version to use 
- |__ gradlew                             # bash script around the wrapper
- |__ gradlew.bat                         # (Windows version)
-```
-
-The gradle wrapper `gradlew`
-- checks that the requested version of gradle is installed
-- if not, downloads and installs that version
-- passes the commands on to the real gradle
-
-If there is no gradle wrapper in your project, you can add one using 
-```shell script
-$ gradle wrapper --gradle-version 6.1.1
-```
-
-:warning: Make sure to always check in `gradlew` and the `gradle` directory into vcs.
-
-## Writing Custom Tasks
+## 5. Writing Custom Tasks
 
 You can define custom tasks in `build.gradle`. 
 
@@ -218,6 +160,8 @@ Listing all tasks in a particular group: `gradle tasks --group 'My custom tasks'
 ```shell script
 $ gradle -q showToday
 Current date: Fri Feb 07 14:22:25 CET 2020
+```
+```shell script
 $ gradle -q hello
 Hello World!
 ```
@@ -226,3 +170,55 @@ Hello World!
 In IntelliJ the task will appear in the 'other' group.
 
 More information [here](https://docs.gradle.org/current/javadoc/org/gradle/api/Task.html).
+
+## 6. Logging & Build lifecycle
+
+Gradle has a maven-like [build lifecycle](https://docs.gradle.org/current/userguide/build_lifecycle.html). 
+
+Log levels are (in order):
+1. ERROR
+2. QUIET
+3. WARNING
+4. LIFECYCLE (default)
+5. INFO
+6. DEBUG
+
+```shell script
+$ gradle [-q|-w|-i|-d] <task>
+```
+
+With the default log level [LIFECYCLE](https://docs.gradle.org/current/userguide/logging.html) you can supposedly 
+see lifecycle progress information messages, but I do not (gradle 6.1.1). On log level INFO you do see lifecycle information:
+
+```shell script
+$ gradle [-i|--info] <task>
+```
+
+## 7. Gradle wrapper (gradlew)
+
+To enforce a uniform way of building your gradle project across environments, you can use the gradle wrapper.
+The gradle wrapper is added to your project by `gradle init`.
+
+```shell script
+<project>
+ |__ gradle
+ |   |__ wrapper
+ |       |__ gradle-wrapper.jar          # implementation (checks version & downloads gradle)
+ |       |__ gradle-wrapper.properties   # specifies what gradle version to use 
+ |__ gradlew                             # bash script around the wrapper
+ |__ gradlew.bat                         # (Windows version)
+```
+
+The gradle wrapper `gradlew`
+- checks that the requested version of gradle is installed
+- if not, downloads and installs that version
+- passes the commands on to the real gradle
+
+If there is no gradle wrapper in your project, you can add one using 
+```shell script
+$ gradle wrapper --gradle-version 6.1.1
+```
+
+:warning: Make sure to always check in `gradlew` and the `gradle` directory into vcs.
+
+
